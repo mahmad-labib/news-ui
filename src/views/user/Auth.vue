@@ -32,7 +32,7 @@
 </template>
 
 <script>
-// import store from "../../store";
+import store from "../../store";
 import LoginCard from "@/components/login";
 import SignupCard from "@/components/signup";
 export default {
@@ -47,13 +47,10 @@ export default {
     };
   },
   methods: {
-    // login(data) {
-    //   return store.dispatch("newsSearch", {
-    //     ...this.data,
-    //     page: this.paginate - 1,
-    //     limit: this.limit,
-    //   });
-    // },
+    login(data) {
+      console.log(data);
+      return store.dispatch("login", data);
+    },
   },
 };
 </script>

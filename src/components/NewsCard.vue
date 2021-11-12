@@ -1,7 +1,7 @@
 <template>
   <v-card class="card mx-auto" max-width="344">
     <v-img
-      :src="$host + el.cover"
+      :src="host + el.cover"
       height="200px"
       class="white--text align-end"
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
@@ -11,17 +11,24 @@
   </v-card>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "NewsCard",
+  data() {
+    return {};
+  },
   props: ["el"],
+  computed: {
+    ...mapState(["host"]),
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .card {
   margin-bottom: 15px;
-  .title{
-      text-align: left;
+  .title {
+    text-align: left;
   }
 }
 </style>

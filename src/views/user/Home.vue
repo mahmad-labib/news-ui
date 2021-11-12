@@ -1,11 +1,19 @@
 <template>
   <v-container>
     <v-container fluid>
-      <search-bar @clicked="set_search_data" @reset="reset"/>
+      <search-bar @clicked="set_search_data" @reset="reset" />
       <!-- justify="space-between" -->
-      <v-row dense mx-auto>
+      <v-row v-if="news.rows" dense mx-auto>
         <news-card v-for="el in news.rows" :key="el.id" :el="el" />
       </v-row>
+      <div v-else>
+        <v-progress-linear
+          color="deep-purple accent-4"
+          indeterminate
+          rounded
+          height="6"
+        ></v-progress-linear>
+      </div>
     </v-container>
     <div class="text-center">
       <v-pagination
@@ -19,7 +27,6 @@
 </template>
 
 <script>
-
 import NewsCard from "@/components/NewsCard.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import store from "../../store";
@@ -45,9 +52,9 @@ export default {
         limit: this.limit,
       });
     },
-    reset(){
+    reset() {
       this.data = {};
-      this.news_get()
+      this.news_get();
     },
     length() {
       var pages = this.news.count;

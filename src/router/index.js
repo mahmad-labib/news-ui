@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/user/Home'
 import Auth from '../views/user/Auth'
+import Fav from '../views/user/Fav';
+import Fav from '../views/user/Fav';
 
 Vue.use(VueRouter)
 
@@ -12,9 +14,14 @@ const routes = [
     component: Home
   },
   {
-    path:'/auth',
+    path: '/auth',
     name: 'Auth',
     component: Auth
+  },
+  {
+    path: '/fav',
+    name: 'Fav',
+    component: Fav
   }
   // {
   //   path: '/about',
