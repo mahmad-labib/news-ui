@@ -13,18 +13,24 @@ export default new Vuex.Store({
     admin: Cookies.get('isAdmin') || false,
     token: Cookies.get('token'),
     publicSections: [],
-    userFav: []
+    userFav: [],
+    loginErrMsg: null
   },
   mutations: {
     NEWS(state, data) {
       state.news = data
     },
     LOGIN(state, data) {
-      Cookies.set('token', data.api_token)
-      Cookies.set('isAdmin', data.isAdmin)
-      state.admin = data.isAdmin
-      state.token = data.api_token
-      return router.push("/");
+      if (data.api_token) {
+        Cookies.set('token', data.api_token)
+        Cookies.set('isAdmin', data.isAdmin)
+        state.admin = data.isAdmin
+        state.token = data.api_token
+        state.loginErrMsg = null
+        return router.push("/");
+      } else {
+        state.loginErrMsg = 'not found'
+      }
     },
     LOGOUT(state) {
       Cookies.remove('isAdmin')
@@ -57,6 +63,7 @@ export default new Vuex.Store({
         });
     },
     newsSearch({ commit }, data) {
+      console.log(data)
       axios
         .post('/news/search', data)
         .then((result) => {

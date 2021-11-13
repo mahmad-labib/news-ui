@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/user/Home'
 import Auth from '../views/user/Auth'
 import Fav from '../views/user/Fav';
-import Fav from '../views/user/Fav';
+import Profile from '../views/user/Profile';
 
 Vue.use(VueRouter)
 
@@ -22,7 +22,12 @@ const routes = [
     path: '/fav',
     name: 'Fav',
     component: Fav
-  }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
+  },
   // {
   //   path: '/about',
   //   name: 'About',

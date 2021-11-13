@@ -23,7 +23,7 @@
 
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="i in 2" :key="i" :value="'tab-' + i">
-          <login-card v-if="i == 1" @login="login" />
+          <login-card v-if="i == 1" @login="login" :errMsg="loginErrMsg" />
           <signup-card v-if="i == 2" />
         </v-tab-item>
       </v-tabs-items>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import {mapState } from "vuex";
 import store from "../../store";
 import LoginCard from "@/components/login";
 import SignupCard from "@/components/signup";
@@ -51,6 +52,9 @@ export default {
       console.log(data);
       return store.dispatch("login", data);
     },
+  },
+  computed: {
+    ...mapState(["loginErrMsg"]),
   },
 };
 </script>

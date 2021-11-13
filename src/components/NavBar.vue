@@ -1,5 +1,14 @@
 <template>
-  <v-app-bar color="primary" dark dense elevation="4" rounded>
+  <v-app-bar
+    class="app-bar"
+    color="primary"
+    dark
+    dense
+    elevation="4"
+    fixed
+    elevate-on-scroll
+    scroll-target="#scrolling-techniques-7"
+  >
     <v-btn icon>
       <v-icon>mdi-matrix</v-icon>
     </v-btn>
@@ -56,5 +65,8 @@ export default {
 .nav-btn {
   margin-right: 16px;
   margin-left: 16px;
+}
+.app-bar {
+  
 }
 </style>

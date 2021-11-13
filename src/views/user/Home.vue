@@ -3,7 +3,7 @@
     <v-container fluid>
       <search-bar @clicked="set_search_data" @reset="reset" />
       <!-- justify="space-between" -->
-      <v-row v-if="news.rows" dense mx-auto>
+      <v-row v-if="news.rows.length > 0" dense mx-auto>
         <news-card v-for="el in news.rows" :key="el.id" :el="el" />
       </v-row>
       <div v-else>
@@ -54,6 +54,7 @@ export default {
     },
     reset() {
       this.data = {};
+      this.paginate = 1;
       this.news_get();
     },
     length() {

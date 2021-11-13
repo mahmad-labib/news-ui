@@ -2,6 +2,9 @@
   <v-card elevation="2" class="child-card">
     <v-form v-model="valid" class="input-row" ref="form" lazy-validation>
       <v-container>
+        <v-alert v-if="loginErrMsg" dense outlined type="error">
+          The email and password you entered don't match
+        </v-alert>
         <v-row class="card-row">
           <v-col>
             <v-text-field
@@ -35,6 +38,7 @@
   </v-card>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "LoginCard",
   data() {
@@ -73,6 +77,9 @@ export default {
     //     });
     //   }
     // },
+  },
+  computed: {
+    ...mapState(["loginErrMsg"]),
   },
 };
 </script>
