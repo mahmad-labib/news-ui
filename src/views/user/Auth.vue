@@ -24,7 +24,7 @@
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="i in 2" :key="i" :value="'tab-' + i">
           <login-card v-if="i == 1" @login="login" :errMsg="loginErrMsg" />
-          <signup-card v-if="i == 2" />
+          <signup-card v-if="i == 2" @signup="signup" :errMsg="signUpErrMsg" />
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -34,8 +34,8 @@
 <script>
 import {mapState } from "vuex";
 import store from "../../store";
-import LoginCard from "@/components/login";
-import SignupCard from "@/components/signup";
+import LoginCard from "@/components/user/login";
+import SignupCard from "@/components/user/signup";
 export default {
   name: "Auth",
   components: {
@@ -49,12 +49,14 @@ export default {
   },
   methods: {
     login(data) {
-      console.log(data);
       return store.dispatch("login", data);
+    },
+    signup(data){
+      return store.dispatch("signup", data);
     },
   },
   computed: {
-    ...mapState(["loginErrMsg"]),
+    ...mapState(["loginErrMsg", "signUpErrMsg"]),
   },
 };
 </script>

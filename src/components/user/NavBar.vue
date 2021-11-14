@@ -1,11 +1,9 @@
 <template>
   <v-app-bar
-    class="app-bar"
     color="primary"
     dark
     dense
     elevation="4"
-    fixed
     elevate-on-scroll
     scroll-target="#scrolling-techniques-7"
   >
@@ -17,7 +15,7 @@
       <router-link v-slot="{ navigate }" to="/">
         <v-btn @click="navigate" color="secondary" text>home</v-btn>
       </router-link>
-      <router-link v-if="admin" v-slot="{ navigate }" to="/">
+      <router-link v-if="admin" v-slot="{ navigate }" to="/admin/home">
         <v-btn @click="navigate" color="secondary" text>Admin</v-btn>
       </router-link>
     </div>
@@ -47,7 +45,7 @@
 
 <script>
 import { mapState } from "vuex";
-import store from "../store";
+import store from "../../store";
 export default {
   name: "Bar",
   methods: {
@@ -56,7 +54,10 @@ export default {
     },
   },
   computed: {
-    ...mapState(["admin", "token"]),
+    ...mapState({
+      admin: (state) => state.auth.admin,
+      token: (state) => state.auth.token,
+    }),
   },
 };
 </script>
@@ -65,8 +66,5 @@ export default {
 .nav-btn {
   margin-right: 16px;
   margin-left: 16px;
-}
-.app-bar {
-  
 }
 </style>

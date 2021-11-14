@@ -4,6 +4,8 @@ import Home from '../views/user/Home'
 import Auth from '../views/user/Auth'
 import Fav from '../views/user/Fav';
 import Profile from '../views/user/Profile';
+import UsersList from '../views/admin/UsersList';
+import AdminHome from '../views/admin/Home';
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/admin/home',
+    name: 'AdminHome',
+    component: AdminHome
+  },
+  {
+    path: '/admin/users-list',
+    name: 'UsersList',
+    component: UsersList
   },
   // {
   //   path: '/about',

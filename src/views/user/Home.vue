@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import NewsCard from "@/components/NewsCard.vue";
-import SearchBar from "@/components/SearchBar.vue";
+import NewsCard from "@/components/user/NewsCard.vue";
+import SearchBar from "@/components/user/SearchBar.vue";
 import store from "../../store";
 import { mapState } from "vuex";
 
@@ -86,7 +86,9 @@ export default {
     this.news_get();
   },
   computed: {
-    ...mapState(["news"]),
+    ...mapState({
+      news: (state) => state.news.news,
+    }),
   },
 };
 </script>

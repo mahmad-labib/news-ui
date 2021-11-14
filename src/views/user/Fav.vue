@@ -66,7 +66,10 @@ export default {
     this.selection = this.userFav;
   },
   computed: {
-    ...mapState(["publicSections", "userFav"]),
+    ...mapState({
+      userFav: (state) => state.fav.userFav,
+      publicSections: (state) => state.publicSections,
+    }),
   },
   destroyed() {
     this.$store.state.userFav = [];

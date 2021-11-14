@@ -1,6 +1,10 @@
 <template>
   <v-app id="app">
-    <v-container>
+    <v-container v-if="show">
+      <admin-bar />
+      <router-view />
+    </v-container>
+    <v-container v-if="!show">
       <bar />
       <router-view />
     </v-container>
@@ -8,18 +12,44 @@
 </template>
 
 <script>
-import Bar from "@/components/NavBar.vue";
+import AdminBar from "@/components/admin/NavBar.vue";
+import Bar from "@/components/user/NavBar.vue";
 export default {
   components: {
-    Bar
-  }
-}
+    Bar,
+    AdminBar,
+  },
+  data() {
+    return {
+      show: false,
+    };
+  },
+  methods: {
+    isRouteAdmin() {
+      var path = this.$router.history.current.path;
+      if (path.includes("admin")) {
+        console.log(path);
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    },
+  },
+  watch: {
+    $route() {
+      this.isRouteAdmin();
+    },
+  },
+  mounted() {
+    this.isRouteAdmin();
+  },
+};
 </script>
 
 <style lang="scss">
 #app {
   font-family: "Montserrat", sans-serif;
-   font-weight: normal;
+  font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
