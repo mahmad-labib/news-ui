@@ -6,6 +6,7 @@ import Fav from '../views/user/Fav';
 import Profile from '../views/user/Profile';
 import UsersList from '../views/admin/UsersList';
 import AdminHome from '../views/admin/Home';
+import UserEdit from '../views/admin/UserEdit';
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/admin/users-list',
     name: 'UsersList',
     component: UsersList
+  },
+  {
+    path: '/admin/user-edit',
+    name: 'UserEdit',
+    component: UserEdit
   },
   // {
   //   path: '/about',

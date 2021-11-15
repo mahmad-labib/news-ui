@@ -40,7 +40,7 @@
         </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item.id)">
+        <v-icon small class="mr-2" @click="editUser(item.id)">
           mdi-pencil
         </v-icon>
       </template>
@@ -73,10 +73,13 @@ export default {
       console.log("clicked");
       this.roles = null;
     },
+    editUser(id) {
+      return store.dispatch('get_user', id)
+    }
   },
   computed: {
     ...mapState({
-      usersList: (state) => state.users.usersList,
+      usersList: (state) => state.adminUsers.usersList,
     }),
     headers() {
       return [

@@ -4,7 +4,7 @@ import axios from 'axios'
 import auth from './modules/user/auth';
 import news from './modules/user/news';
 import fav from './modules/user/fav';
-import users from './modules/admin/userList';
+import adminUsers from './modules/admin/userList';
 
 Vue.use(Vuex)
 
@@ -13,7 +13,7 @@ export default new Vuex.Store({
     auth,
     news,
     fav,
-    users
+    adminUsers
   },
   state: {
     host: 'https://localhost:3030',
