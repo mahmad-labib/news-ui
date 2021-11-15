@@ -1,24 +1,50 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-title>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-title>
-      <v-data-table :headers="headers" :items="usersList" :search="search">
-      </v-data-table>
-      <template v-slot:usersList.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+    <v-card-title>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            hide-details
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-select v-model="roles" :items="Chips" label="Roles"></v-select>
+        </v-col>
+        <v-col cols="1" class="button-col">
+          <v-btn @click="emptyRoles">
+            <v-icon aria-hidden="false"
+              >mdi-delete-empty-outline</v-icon
+            >
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card-title>
+    <v-data-table
+      :search="search"
+      :headers="headers"
+      :items="usersList"
+      class="elevation-1"
+    >
+      <template v-slot:item.roles="{ item }">
+        <v-chip
+          class="chip"
+          v-for="role in item.roles"
+          :key="role.id"
+          color="green"
+          dark
+        >
+          {{ role.name }}
+        </v-chip>
       </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize"> Reset </v-btn>
+      <template v-slot:item.actions="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item.id)">
+          mdi-pencil
+        </v-icon>
       </template>
-    </v-card>
+    </v-data-table>
   </v-container>
 </template>
 
@@ -31,31 +57,57 @@ export default {
   data() {
     return {
       search: "",
-      headers: [
-        { text: "name", align: "start", value: "name" },
-        { text: "email", value: "email" },
-        { text: "roles", value: "roles" },
-        { text: "Actions", value: "actions", sortable: false },
-      ],
-      paginate: 1,
-      limit: 30,
+      roles: "",
+      Chips: ["admin", "moderator", "junior"],
+      switch1: false,
     };
   },
   methods: {
     get_users() {
-      return store.dispatch("get_users", {
-        page: this.paginate - 1,
-        limit: this.limit,
-      });
+      return store.dispatch("get_users");
+    },
+    editItem(id) {
+      console.log(id);
+    },
+    emptyRoles() {
+      console.log("clicked");
+      this.roles = null;
     },
   },
   computed: {
     ...mapState({
       usersList: (state) => state.users.usersList,
     }),
+    headers() {
+      return [
+        { text: "name", align: "start", value: "name" },
+        { text: "email", value: "email" },
+        {
+          text: "roles",
+          value: "roles",
+          filter: (row) => {
+            var search = this.roles;
+            if (!search) return true;
+            var arr = [];
+            row.forEach((role) => {
+              return arr.push(role.name);
+            });
+            if (arr.find((el) => el === search) != undefined) return row;
+          },
+        },
+        { text: "Actions", value: "actions", sortable: false },
+      ];
+    },
   },
   mounted() {
     this.get_users();
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.button-col{
+  margin: auto;
+  padding: 0px;
+}
+</style>
