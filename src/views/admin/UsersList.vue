@@ -4,9 +4,17 @@
       <v-row>
         <v-col>
           <v-text-field
-            v-model="search"
+            v-model="name"
             append-icon="mdi-magnify"
-            label="Search"
+            label="Name"
+            hide-details
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="email"
+            append-icon="mdi-magnify"
+            label="Email"
             hide-details
           ></v-text-field>
         </v-col>
@@ -14,16 +22,21 @@
           <v-select v-model="roles" :items="Chips" label="Roles"></v-select>
         </v-col>
         <v-col cols="1" class="button-col">
-          <v-btn @click="emptyRoles">
-            <v-icon aria-hidden="false"
-              >mdi-delete-empty-outline</v-icon
-            >
+          <v-btn @click="search_users">
+            <v-icon aria-hidden="false">mdi-magnify</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="1" class="button-col">
+          <v-btn @click="reset">
+            <v-icon aria-hidden="false">mdi-delete-empty-outline</v-icon>
           </v-btn>
         </v-col>
       </v-row>
     </v-card-title>
     <v-data-table
-      :search="search"
+      :page.sync="page"
+      :items-per-page="limit"
+      hide-default-footer
       :headers="headers"
       :items="usersList"
       class="elevation-1"
@@ -45,6 +58,15 @@
         </v-icon>
       </template>
     </v-data-table>
+    <v-row>
+      <v-col>
+        <v-pagination
+          v-model="page"
+          :length="count"
+          @input="paginate_req"
+        ></v-pagination>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -56,30 +78,57 @@ export default {
   name: "UsersList",
   data() {
     return {
-      search: "",
       roles: "",
       Chips: ["admin", "moderator", "junior"],
       switch1: false,
+      page: 1,
+      pageCount: 0,
+      limit: 10,
+      name: "",
+      email: "",
+      role: "",
     };
   },
   methods: {
     get_users() {
-      return store.dispatch("get_users");
+      return store.dispatch("get_users", {
+        page: this.page - 1,
+        limit: this.limit,
+      });
     },
-    editItem(id) {
-      console.log(id);
-    },
-    emptyRoles() {
-      console.log("clicked");
-      this.roles = null;
+    search_users() {
+      return store.dispatch("search_users", {
+        name: this.name,
+        email: this.email,
+        role: this.roles,
+        limit: this.limit,
+        page: this.page - 1,
+      });
     },
     editUser(id) {
-      return store.dispatch('get_user', id)
-    }
+      return store.dispatch("get_user", id);
+    },
+    reset() {
+      this.name = "";
+      this.email = ""
+      this.page = 1;
+      this.roles = "";
+      this.get_users();
+    },
+    paginate_req(page) {
+      this.page = page;
+      if (this.data) {
+        this.search_users();
+      } else {
+        this.get_users();
+      }
+    },
   },
   computed: {
     ...mapState({
       usersList: (state) => state.adminUsers.usersList,
+      auth: (state) => state.auth.token,
+      count: (state) => state.adminUsers.count,
     }),
     headers() {
       return [
@@ -88,15 +137,15 @@ export default {
         {
           text: "roles",
           value: "roles",
-          filter: (row) => {
-            var search = this.roles;
-            if (!search) return true;
-            var arr = [];
-            row.forEach((role) => {
-              return arr.push(role.name);
-            });
-            if (arr.find((el) => el === search) != undefined) return row;
-          },
+          // filter: (row) => {
+          //   var search = this.roles;
+          //   if (!search) return true;
+          //   var arr = [];
+          //   row.forEach((role) => {
+          //     return arr.push(role.name);
+          //   });
+          //   if (arr.find((el) => el === search) != undefined) return row;
+          // },
         },
         { text: "Actions", value: "actions", sortable: false },
       ];
@@ -109,8 +158,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button-col{
+.button-col {
   margin: auto;
-  padding: 0px;
+  margin-right: 5px;
 }
 </style>

@@ -16,6 +16,8 @@ export default {
                 Cookies.set('isAdmin', data.isAdmin)
                 state.admin = data.isAdmin
                 state.token = data.api_token
+                //Axios Defaults
+                axios.defaults.headers['jwt_token'] = data.api_token;
                 state.loginErrMsg = null
                 return router.push("/");
             } else {

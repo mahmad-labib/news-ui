@@ -16,7 +16,7 @@
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
           <v-btn @click="reset" color="primary" fab dark>
-            <v-icon>mdi-undo</v-icon>
+            <v-icon>mdi-delete-empty-outline</v-icon>
           </v-btn>
         </v-col>
       </v-row>

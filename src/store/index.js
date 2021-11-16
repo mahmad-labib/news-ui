@@ -5,6 +5,10 @@ import auth from './modules/user/auth';
 import news from './modules/user/news';
 import fav from './modules/user/fav';
 import adminUsers from './modules/admin/userList';
+import roles from './modules/admin/roles';
+import sections from './modules/admin/sections';
+
+
 
 Vue.use(Vuex)
 
@@ -13,7 +17,9 @@ export default new Vuex.Store({
     auth,
     news,
     fav,
-    adminUsers
+    adminUsers,
+    roles,
+    sections
   },
   state: {
     host: 'https://localhost:3030',
